@@ -23,7 +23,7 @@ public class FixedPotionDamage extends PluginBase implements Listener {
         if (!(entity instanceof Player)) return;
 
         DamageCause cause = event.getCause();
-        if (cause == DamageCause.MAGIC || cause == DamageCause.POISON || cause == DamageCause.WITHER) {
+        if (cause == DamageCause.MAGIC) {
             event.setCancelled(); // Cancelamos el daño original
             ((Player) entity).attack(new EntityDamageEvent(entity, DamageCause.CUSTOM, 4.0f)); // Aplicamos daño fijo
         }
