@@ -1,0 +1,38 @@
+name: Compilar Plugin sin Maven
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Clonar repositorio
+      uses: actions/checkout@v3
+
+    - name: Preparar estructura de compilación
+      run: mkdir out
+
+    - name: Descargar Nukkit API
+      run: curl -L -o nukkit.jar https://ci.opencollab.dev/job/NukkitX/job/Nukkit/job/master/lastSuccessfulBuild/artifact/target/nukkit-1.0-SNAPSHOT.jar
+
+    - name: Compilar código Java
+      run: javac -cp "nukkit.jar" -d out src/Tripu1404/fixedpotiondamage/FixedPotionDamage.java
+
+    - name: Copiar plugin.yml
+      run: cp plugin.yml out/
+
+    - name: Crear plugin .jar
+      run: |
+        cd out
+        jar cf FixedPotionDamage.jar *
+
+    - name: Subir artefacto .jar
+      uses: actions/upload-artifact@v3
+      with:
+        name: FixedPotionDamage
+        path: out/FixedPotionDamage.jar
