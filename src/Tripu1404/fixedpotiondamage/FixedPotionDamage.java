@@ -24,8 +24,8 @@ public class FixedPotionDamage extends PluginBase implements Listener {
 
         DamageCause cause = event.getCause();
         if (cause == DamageCause.MAGIC) {
-            event.setCancelled(); // Cancelamos el daño original
-            ((Player) entity).attack(new EntityDamageEvent(entity, DamageCause.CUSTOM, 4.0f)); // Aplicamos daño fijo
+            event.setCancelled(); // Evitamos que Nukkit procese el daño normalmente
+            ((Player) entity).attack(new EntityDamageEvent(entity, DamageCause.CUSTOM, 8.0f)); // Doble daño mágico
         }
     }
 }
