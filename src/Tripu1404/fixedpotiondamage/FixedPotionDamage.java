@@ -26,7 +26,7 @@ public class FixedPotionDamage extends PluginBase implements Listener {
             float originalDamage = event.getFinalDamage();
             float finalDamage;
 
-            if (originalDamage >= 6.0f) {
+            if (originalDamage >= 8.0f) {
                 // Posible daño instantáneo → aplicar fijo
                 finalDamage = 12.0f;
             } else if (originalDamage <= 1.0f) {
