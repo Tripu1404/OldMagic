@@ -12,13 +12,13 @@ import cn.nukkit.utils.Config;
 
 import java.io.File;
 
-public class ArrowDamageNormalizer extends PluginBase implements Listener {
+public class FixedPotionDamage extends PluginBase implements Listener {
 
     private float customDamage = 2.0f;
 
     @Override
     public void onEnable() {
-        // Carga configuración si existe
+        // Cargar config.yml
         File configFile = new File(getDataFolder(), "config.yml");
         if (!configFile.exists()) {
             getDataFolder().mkdirs();
@@ -31,7 +31,7 @@ public class ArrowDamageNormalizer extends PluginBase implements Listener {
         customDamage = (float) config.getDouble("arrow_damage", 2.0);
 
         getServer().getPluginManager().registerEvents(this, this);
-        getLogger().info("ArrowDamageNormalizer habilitado con daño de flecha: " + customDamage);
+        getLogger().info("FixedPotionDamage habilitado con daño de flechas: " + customDamage);
     }
 
     @EventHandler
@@ -41,10 +41,8 @@ public class ArrowDamageNormalizer extends PluginBase implements Listener {
 
         if (!(damager instanceof EntityArrow)) return;
 
-        // Cancela el daño original (que puede incluir Power o variaciones)
         event.setCancelled();
 
-        // Aplica daño constante
         target.attack(new EntityDamageEvent(target, EntityDamageEvent.DamageCause.PROJECTILE, customDamage));
     }
 }
