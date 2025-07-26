@@ -1,33 +1,46 @@
-@Override
-public void onEnable() {
-    getServer().getPluginManager().registerEvents(this, this);
-    getLogger().info("FixedPotionDamage habilitado 🎯");
-}
+package Tripu1404.fixedpotiondamage;
 
-@EventHandler
-public void onEntityDamage(EntityDamageEvent event) {
-    Entity entity = event.getEntity();
-    if (!(entity instanceof Player)) return;
-    Player player = (Player) entity;
+import cn.nukkit.Player;
+import cn.nukkit.entity.Entity;
+import cn.nukkit.event.EventHandler;
+import cn.nukkit.event.Listener;
+import cn.nukkit.event.entity.EntityDamageEvent;
+import cn.nukkit.event.entity.EntityDamageEvent.DamageCause;
+import cn.nukkit.plugin.PluginBase;
 
-    if (event.getCause() == DamageCause.MAGIC) {
-        float originalDamage = event.getFinalDamage();
-        float finalDamage;
+public class FixedPotionDamage extends PluginBase implements Listener {
 
-        if (originalDamage >= 12.0f) {
-            // Posible daño instantáneo → aplicar fijo
-            finalDamage = 12.0f;
-        } else if (originalDamage <= 1.0f) {
-            // Posible veneno → calcular cuánto se puede aplicar sin matar
-            float health = player.getHealth();
-            finalDamage = Math.min(originalDamage + 2.0f, health - 1.0f);
-            if (finalDamage <= 0.0f) return; // Ya está en medio corazón o menos
-        } else {
-            // Posible wither → duplicar daño
-            finalDamage = originalDamage * 2.0f;
+    @Override
+    public void onEnable() {
+        getServer().getPluginManager().registerEvents(this, this);
+        getLogger().info("FixedPotionDamage habilitado 🎯");
+    }
+
+    @EventHandler
+    public void onEntityDamage(EntityDamageEvent event) {
+        Entity entity = event.getEntity();
+        if (!(entity instanceof Player)) return;
+        Player player = (Player) entity;
+
+        if (event.getCause() == DamageCause.MAGIC) {
+            float originalDamage = event.getFinalDamage();
+            float finalDamage;
+
+            if (originalDamage >= 6.0f) {
+                // Posible daño instantáneo → aplicar fijo
+                finalDamage = 12.0f;
+            } else if (originalDamage <= 1.0f) {
+                // Posible veneno → calcular cuánto se puede aplicar sin matar
+                float health = player.getHealth();
+                finalDamage = Math.min(originalDamage + 2.0f, health - 1.0f);
+                if (finalDamage <= 0.0f) return; // Ya está en medio corazón o menos
+            } else {
+                // Posible wither → duplicar daño
+                finalDamage = originalDamage * 2.0f;
+            }
+
+            event.setCancelled();
+            player.attack(new EntityDamageEvent(player, DamageCause.CUSTOM, finalDamage));
         }
-
-        event.setCancelled();
-        player.attack(new EntityDamageEvent(player, DamageCause.CUSTOM, finalDamage));
     }
 }
