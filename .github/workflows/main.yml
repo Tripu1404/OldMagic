@@ -1,4 +1,4 @@
-name: Compilar Plugin sin Maven
+name: Compilar InstantDamageModifier sin Maven
 
 on:
   push:
@@ -29,16 +29,20 @@ jobs:
 
     - name: 🧪 Compilar código Java
       run: |
-        javac -cp "nukkit.jar" -d out src/Tripu1404/fixedpotiondamage/FixedPotionDamage.java
+        # Compilar las clases del plugin
+        javac -cp "nukkit.jar" -d out src/tripu1404/instantdamagemodifier/*.java
+
+        # Copiar plugin.yml y config.yml al directorio de salida
         cp plugin.yml out/
+        cp config.yml out/
 
     - name: 📁 Generar plugin JAR
       run: |
         cd out
-        jar cf FixedPotionDamage.jar *
+        jar cf InstantDamageModifier.jar *
 
     - name: 🚀 Subir artefacto .jar
       uses: actions/upload-artifact@v4
       with:
-        name: FixedPotionDamage
-        path: out/FixedPotionDamage.jar
+        name: InstantDamageModifier
+        path: out/InstantDamageModifier.jar
