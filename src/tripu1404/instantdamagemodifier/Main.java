@@ -1,7 +1,6 @@
-package com.example.instantdamagemodifier;
+package tripu1404.instantdamagemodifier;
 
 import cn.nukkit.plugin.PluginBase;
-import cn.nukkit.event.Listener;
 import cn.nukkit.event.HandlerList;
 
 public class Main extends PluginBase {
