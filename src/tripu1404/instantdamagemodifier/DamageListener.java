@@ -19,7 +19,9 @@ public class DamageListener implements Listener {
         if (event.getCause() == DamageCause.MAGIC) {
             double multiplier = plugin.getDamageMultiplier();
             double newDamage = event.getFinalDamage() * multiplier;
-            event.setDamage(newDamage);
+
+            // Convertir a float para setDamage
+            event.setDamage((float) newDamage);
         }
     }
 }
