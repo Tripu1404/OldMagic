@@ -1,5 +1,7 @@
 package tripu1404.instantdamagemodifier;
 
+import cn.nukkit.effect.Effect;
+import cn.nukkit.entity.Entity;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.entity.EntityDamageEvent;
@@ -15,13 +17,19 @@ public class DamageListener implements Listener {
 
     @EventHandler
     public void onEntityDamage(EntityDamageEvent event) {
-        // Solo afecta daño mágico (efecto Daño Instantáneo)
-        if (event.getCause() == DamageCause.MAGIC) {
-            double multiplier = plugin.getDamageMultiplier();
-            double newDamage = event.getFinalDamage() * multiplier;
+        // Solo nos interesa daño mágico
+        if(event.getCause() != DamageCause.MAGIC) return;
 
-            // Convertir a float para setDamage
-            event.setDamage((float) newDamage);
+        Entity entity = event.getEntity();
+
+        // Revisamos si la entidad tiene el efecto Instant Damage (ID 7)
+        boolean hasInstantDamage = entity.getEffects().stream()
+                                        .anyMatch(e -> e.getId() == Effect.INSTANT_DAMAGE.getId());
+
+        if(hasInstantDamage) {
+            // Calculamos el daño multiplicado
+            float newDamage = (float)(event.getFinalDamage() * plugin.getDamageMultiplier());
+            event.setDamage(newDamage);
         }
     }
 }
