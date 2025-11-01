@@ -1,6 +1,6 @@
-name: OldPotions
-main: Tripu1404.fixedpotiondamage.FixedPotionDamage
+name: InstantDamageModifier
+main: tripu1404.instantdamagemodifier.Main
 version: 1.0.0
 api: ["1.0.0"]
 author: Tripu1404
-description: OldBedrockPvP
+description: Permite modificar el daño del efecto de Daño Instantáneo
