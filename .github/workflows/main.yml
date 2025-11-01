@@ -26,10 +26,9 @@ jobs:
 
     - name: 🌐 Descargar Nukkit API
       run: curl -L -o nukkit.jar https://ci.opencollab.dev/job/NukkitX/job/Nukkit/job/master/lastSuccessfulBuild/artifact/target/nukkit-1.0-SNAPSHOT.jar
-
     - name: 🧪 Compilar código Java
       run: |
-        # Compilar las clases del plugin
+        # Compilar todas las clases del plugin
         javac -cp "nukkit.jar" -d out src/tripu1404/instantdamagemodifier/*.java
 
         # Copiar plugin.yml y config.yml al directorio de salida
